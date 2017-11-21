@@ -1,0 +1,68 @@
+body {
+    background-color: floralwhite;
+    color: darkmagenta;
+    text-align: center;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-variant: small-caps;
+    position: relative;
+}
+
+#title {
+    position: relative;
+    top: 1%
+}
+
+#options {
+    margin-bottom: 2%;
+    background-color: lavender;
+    position: sticky;
+}
+
+.options {
+    position: relative;
+    display: none;
+}
+
+.studentTeacherSpecific {
+    display: none;
+}
+
+#displayArea {
+    display: none;
+    text-align: center;
+}
+
+#showOneThing {
+    text-align: center;
+}
+
+table, th, td {
+    margin: auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
+
+th {
+    font-weight: normal;
+}
+
+ul {
+    text-align: center;
+}
+
+.allData {
+    position: relative;
+    padding: 2%;
+}
+
+.displayArea {
+    display: none;
+}
+
+#hideDisplay {
+    display: none;
+}

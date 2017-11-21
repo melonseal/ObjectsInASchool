@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div id="title"><h1>Student/Teacher/Section Arrangement Display</h1></div>
+
+<div id="options">
+    <div id="spacer1" style="color:lavender">.</div>
+    <b>Options:</b>
+    <br>
+    <label for="addSome">Add A Person</label>
+    <i id="addSome" class="fa fa-plus" onclick="setUpField('selectsPeople');
+    makeInvisible('studentTeacherSpecific', false);
+"></i>
+    <b> / </b>
+    <label for="addSection">Add A Section</label>
+    <i id="addSection" class="fa fa-bars" onclick="setUpField('addsSection');
+    document.getElementById('newSectionTeacher').innerHTML = listThings(1);
+"></i>
+    <b> / </b>
+    <label for="addStudentToSection">Add A Student To A Section</label>
+    <i id="addStudentToSection" class="fa fa-database" onclick="setUpField('addsStudentToSec');
+    document.getElementById('idOfStudent').innerHTML = listThings(0);
+    document.getElementById('nameOfSection').innerHTML = listThings(2);
+"></i>
+    <b> / </b>
+    <label for="changeStudentGradeInSection">Assign A Student A Grade</label>
+    <i id="changeStudentGradeInSection" class="fa fa-edit" onclick="setUpField('changeStudentGrade');
+    document.getElementById('studentsIdForGrade').innerHTML = listThings(0);
+"></i>
+    <b> / </b>
+    <label for="removeStudentFromSection">Remove Student From A Section</label>
+    <i id="removeStudentFromSection" class="fa fa-object-ungroup" onclick="setUpField('removesStudentFromSec');
+    document.getElementById('studentsId').innerHTML = listThings(0);"></i>
+    <b> / </b>
+    <label for="showData">Show Data</label>
+    <i id="showData" class="fa fa-address-book" onclick="setUpField('dataDisplay');
+    document.getElementById('listOfStudents').innerHTML = listThings(0);
+    document.getElementById('listOfTeachers').innerHTML = listThings(1);
+    document.getElementById('listOfSectionNames').innerHTML = listThings(2);
+"></i>
+    <b> / </b>
+    <label for="searchStudent">Search For A Student</label>
+    <i id="searchStudent" class="fa fa-search" onclick="setUpField('studentSearch');
+    document.getElementById('searchById').innerHTML = listThings(0);
+"></i>
+    <br>
+    <div id="spacer2" style="color:lavender">.</div>
+</div>
+
+<fieldset id="selectsPeople" class="options">
+    <legend>Enter A New Person</legend>
+
+    <label for="studentOrTeacher">Student or teacher?</label>
+    <select id="studentOrTeacher">
+        <option value="1">STUDENT</option>
+        <option value="2">TEACHER</option>
+    </select>
+    <br>
+
+    <label for="enterFirstName">Enter First Name:</label>
+    <input type="text" id="enterFirstName" value="Gary">
+
+    <label for="enterLastName">Enter Last Name:</label>
+    <input type="text" id="enterLastName" value="Stu">
+
+    <br>
+    <i id="enterPersonBG" class="fa fa-eercast" onclick="
+    if(document.getElementById('studentOrTeacher').value === '1') {
+        document.getElementById('studentCreator').style.display = 'inline';
+    }
+    if(document.getElementById('studentOrTeacher').value === '2') {
+        document.getElementById('teacherCreator').style.display = 'inline';
+    }"></i>
+
+    <br>
+
+
+    <div id="teacherCreator" class="studentTeacherSpecific">
+        <label for="enterSubject" class="addDetails" id="subjectLabel">Enter Teacher Subject:</label>
+        <input type="text" class="addDetails" id="enterSubject" value="subject">
+        <br>
+        Generate Teacher
+        <i id="makeTeacher" class="fa fa-briefcase" onclick="getNewTeacher(document.getElementById('enterLastName').value);
+        makeInvisible('selectsPeople', true);
+        makeVisible('userMessage', true);
+"></i>
+    </div>
+
+    <div id="studentCreator" class="studentTeacherSpecific">
+        <label for="enterId">Enter Id:</label>
+        <input type="text" id="enterId" value="123456">
+        <br>
+        <label for="enterGrade" class="addDetails" id="gradeLabel">Enter Student Grade Level:</label>
+        <input type="text" class="addDetails" id="enterGrade" value="9">
+        <br>
+        Generate Student
+        <i id="makeStudent" class="fa fa-book" onclick="
+        getNewStudent(document.getElementById('enterLastName').value);
+        makeInvisible('selectsPeople', true);
+        makeVisible('userMessage', true);
+"></i>
+    </div>
+</fieldset>
+
+<fieldset id="addsSection" class="options">
+    <legend>Add A Section</legend>
+    <label for="newSectionName">Enter Section Name</label>
+    <input type="text" id="newSectionName" value="math 1">
+    <br>
+    <label for="newSectionMaxSize">Enter Section Max Size</label>
+    <input type="number" id="newSectionMaxSize" value="30">
+    <br>
+    <label for="newSectionTeacher">Enter Last Name of Teacher For Section</label>
+    <select id="newSectionTeacher"></select>
+    <br>
+    <i id="createNewSection" class="fa fa-ravelry" onclick="getNewSection(document.getElementById('newSectionName').value);
+    makeInvisible('addsSection', true);
+    makeVisible('userMessage', true);
+"></i>
+</fieldset>
+
+<fieldset id="addsStudentToSec" class="options">
+    <legend>Add A Student To A Section</legend>
+
+    <label for="idOfStudent">Select Student</label>
+    <select id="idOfStudent"></select>
+
+    <label for="nameOfSection">Enter Section Name</label>
+    <select id="nameOfSection"></select>
+
+    <br>
+    <i id="addToSection" class="fa fa-bolt" onclick="
+    studentToSec();
+    makeInvisible('addsStudentToSec', true);
+    makeVisible('userMessage', true);
+"></i>
+</fieldset>
+
+<fieldset id="removesStudentFromSec" class="options">
+    <legend>Remove A Student From A Section</legend>
+
+    <label for="studentsId">Choose Student</label>
+    <select id="studentsId"></select>
+    <br>
+
+    <label for="getSectionsOfStudent">Click Me</label>
+    <i id="getSectionsOfStudent" class="fa fa-cogs" onclick="document.getElementById('sectionsName').innerHTML = listStudentsSections(document.getElementById('studentsId').value);
+    makeVisible('getSpecificSections');
+"></i>
+
+    <div id="getSpecificSections">
+        <label for="sectionsName">Choose Section</label>
+        <select id="sectionsName"></select>
+        <br>
+        <i id="" class="fa fa-chain-broken" onclick="studentFromSec();
+    makeInvisible('removesStudentFromSec', true);
+    makeVisible('userMessage', true);
+"></i>
+    </div>
+</fieldset>
+
+<fieldset id="dataDisplay" class="options">
+    <legend>Pick Data To View</legend>
+    <label for="listOfSectionNames">Select A Section to View: </label>
+    <select id="listOfSectionNames"></select>
+    <i id="getOneSection" class="fa fa-cube" onclick="
+    document.getElementById('showOneThing').innerHTML = '';
+    listSectionInfo(document.getElementById('listOfSectionNames').value);
+    makeInvisible('dataDisplay', true);
+    makeVisible('showOneThing', true);
+    makeVisible('hideDisplay', true);
+"></i>
+    <br>
+
+    <label for="listOfTeachers">Select A Teacher to View: </label>
+    <select id="listOfTeachers"></select>
+    <i id="getOneTeacher" class="fa fa-flask" onclick="
+    document.getElementById('showOneThing').innerHTML = '';
+    listTeacherInfo(document.getElementById('listOfTeachers').value);
+    makeInvisible('dataDisplay', true);
+    makeVisible('showOneThing', true);
+    makeVisible('hideDisplay', true);
+"></i>
+    <br>
+
+    <label for="listOfStudents">Select A Student to View: </label>
+    <select id="listOfStudents"></select>
+    <i id="getOneStudent" class="fa fa-paper-plane" onclick="
+    document.getElementById('showOneThing').innerHTML = '';
+    listStudentInfo(document.getElementById('listOfStudents').value);
+    makeInvisible('dataDisplay', true);
+    makeVisible('showOneThing', true);
+    makeVisible('hideDisplay', true);
+"></i>
+    <br>
+
+    Or: Get All Data
+    <i id="getAllSections" class="fa fa-globe" onclick="listGlobalInfo();
+    makeInvisible('dataDisplay', true);
+    makeVisible('globalTables', true);
+    makeVisible('hideDisplay', true);
+"></i>
+</fieldset>
+
+<fieldset id="changeStudentGrade" class="options">
+    <legend>Grade A Student</legend>
+    <label for="studentsIdForGrade">Student:</label>
+    <select id="studentsIdForGrade"></select>
+    <br>
+    <label for="enterNewGrade"></label>
+    <input type="number" id="enterNewGrade" value="90">
+    <br>
+    <i id="addGrade" class="fa fa-grav" onclick="studentGrade();
+    makeInvisible('changeStudentGrade', true);
+    makeVisible('userMessage', true);
+"></i>
+</fieldset>
+
+<fieldset id="studentSearch" class="options">
+    <label for="searchById">Enter Student Last Name</label>
+    <select id="searchById"></select>
+    <i id="findStudent" class="fa fa-magnet" onclick="listStudentInfo(document.getElementById('searchById').value);
+    makeVisible('hideDisplay', true);
+    makeVisible('showOneThing', true);
+    makeInvisible('studentSearch', true);
+"></i>
+</fieldset>
+<br>
+<div id="userMessage"></div>
+<br>
+<div id="globalTables" class="displayArea">
+        <table id="showAllSections" class="allData"></table>
+        <br>
+        <table id="showAllStudents" class="allData"></table>
+        <br>
+        <table id="showAllTeachers" class="allData"></table>
+        <br>
+</div>
+    <div id="showOneThing" class="displayArea"></div>
+<div id="hideDisplay">
+    <br>
+    <label for="hideDisplayIcon" class="displayArea">Hide Display: </label>
+    <i id="hideDisplayIcon" class="fa fa-eye-slash" onclick="makeInvisible('displayArea', false);
+    makeInvisible('hideDisplay', true);
+"></i>
+</div>
+
+</body>
+</html>
